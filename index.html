@@ -18,20 +18,54 @@
   <body>
     <header class="d-flex flex-column">
       <div class="container">
-        <div class="row">
-          <div id="timer-area" class="col-12">
-            <button></button>
+        <div class="row justify-content-center">
+          <div id="timer-area" class="col-6">
+            <div id="timers-row" class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <button type="button" class="btn btn-primary rounded-pill">
+                  Focus
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill">
+                  Short Break
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill">
+                  Long Break
+                </button>
+              </div>
+            </div>
+            <div id="countdown" class="row text-center">
+              <div class="col-12">
+                <h3 class="display-1">25:00</h3>
+              </div>
+            </div>
+            <div id="buttons-row" class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <button type="button" class="btn btn-primary rounded-pill">
+                  Start
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill">
+                  Rewind Icon
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill">
+                  Setting
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </header>
     <!-- JS link -->
-
     <script src="assets/js/script.js"></script>
     <!-- BootStrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/f047558dec.js"
       crossorigin="anonymous"
     ></script>
   </body>
