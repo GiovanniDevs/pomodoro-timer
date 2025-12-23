@@ -15,20 +15,32 @@
     <link rel="stylesheet" href="assets/CSS/style.css" />
     <title>Tomato Timer</title>
   </head>
-  <body>
-    <header class="d-flex flex-column">
+  <body class="d-flex align-items-center min-vh-100">
+    <header class="w-100">
+      <!-- 
+        min-vh-100 → full viewport height
+        w-100 → prevents width collapse -->
       <div class="container">
         <div class="row justify-content-center">
           <div id="timer-area" class="col-6">
-            <div id="timers-row" class="row">
-              <div class="col-12 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary rounded-pill">
+            <div id="timers-row" class="row my-3">
+              <div class="col-12 d-flex justify-content-center gap-3">
+                <button
+                  type="button"
+                  class="btn btn-primary rounded-pill btn-active"
+                >
                   Focus
                 </button>
-                <button type="button" class="btn btn-primary rounded-pill">
+                <button
+                  type="button"
+                  class="btn btn-primary rounded-pill btn-default"
+                >
                   Short Break
                 </button>
-                <button type="button" class="btn btn-primary rounded-pill">
+                <button
+                  type="button"
+                  class="btn btn-primary rounded-pill btn-default"
+                >
                   Long Break
                 </button>
               </div>
@@ -38,16 +50,25 @@
                 <h3 class="display-1">25:00</h3>
               </div>
             </div>
-            <div id="buttons-row" class="row">
-              <div class="col-12 d-flex justify-content-center">
-                <button type="button" class="btn btn-primary rounded-pill">
+            <div id="buttons-row" class="row my-3">
+              <div class="col-12 d-flex justify-content-center gap-3">
+                <button
+                  type="button"
+                  class="btn btn-primary rounded-pill btn-active"
+                >
                   Start
                 </button>
-                <button type="button" class="btn btn-primary rounded-pill">
-                  Rewind Icon
+                <button
+                  type="button"
+                  class="btn btn-primary rounded-pill btn-default"
+                >
+                  <i class="fa-solid fa-clock-rotate-left"></i>
                 </button>
-                <button type="button" class="btn btn-primary rounded-pill">
-                  Setting
+                <button
+                  type="button"
+                  class="btn btn-primary rounded-pill btn-default"
+                >
+                  <i class="fa-solid fa-gear"></i>
                 </button>
               </div>
             </div>

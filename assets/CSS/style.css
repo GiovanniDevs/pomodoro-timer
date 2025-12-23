@@ -4,4 +4,16 @@ body {
 
 #timer-area {
   background-color: rgb(59, 59, 59);
+  border-radius: 20px;
+}
+
+.btn-active {
+  background-color: whitesmoke;
+  color: black;
+  border-width: 0;
+}
+
+.btn-default {
+  background-color: transparent;
+  border: solid 1px white;
 }
