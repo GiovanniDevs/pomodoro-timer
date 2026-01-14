@@ -22,7 +22,7 @@
         w-100 → prevents width collapse -->
       <div class="container">
         <div class="row justify-content-center">
-          <div id="timer-area" class="col-6">
+          <div id="timer-area" class="col-8 col-md-6">
             <div id="timers-row" class="row my-3">
               <div class="col-12 d-flex justify-content-center gap-3">
                 <button
@@ -47,7 +47,7 @@
             </div>
             <div id="countdown" class="row text-center">
               <div class="col-12">
-                <h3 class="display-1">25:00</h3>
+                <h3 class="display-1 white-text">25:00</h3>
               </div>
             </div>
             <div id="buttons-row" class="row my-3">
@@ -59,6 +59,7 @@
                   Start
                 </button>
                 <button
+                  id="rewind"
                   type="button"
                   class="btn btn-primary rounded-pill btn-default"
                 >
@@ -67,10 +68,128 @@
                 <button
                   type="button"
                   class="btn btn-primary rounded-pill btn-default"
+                  data-bs-toggle="modal"
+                  data-bs-target="#settingsModal"
+                  aria-controls="settingsModal"
+                  aria-label="Open settings"
                 >
                   <i class="fa-solid fa-gear"></i>
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Settings Modal -->
+      <div
+        class="modal fade"
+        id="settingsModal"
+        tabindex="-1"
+        aria-labelledby="settingsModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="settingsModalLabel">Settings</h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <nav class="col-4 col-md-3">
+                  <div
+                    class="nav nav-pills flex-column"
+                    id="settings-tabs"
+                    role="tablist"
+                    aria-orientation="vertical"
+                  >
+                    <button
+                      class="nav-link active"
+                      id="appearance-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#appearance"
+                      type="button"
+                      role="tab"
+                      aria-controls="appearance"
+                      aria-selected="true"
+                    >
+                      Appearance
+                    </button>
+                    <button
+                      class="nav-link"
+                      id="timers-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#timers"
+                      type="button"
+                      role="tab"
+                      aria-controls="timers"
+                      aria-selected="false"
+                    >
+                      Timers
+                    </button>
+                    <button
+                      class="nav-link"
+                      id="sounds-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#sounds"
+                      type="button"
+                      role="tab"
+                      aria-controls="sounds"
+                      aria-selected="false"
+                    >
+                      Sounds
+                    </button>
+                  </div>
+                </nav>
+                <div class="col-8 col-md-9">
+                  <div class="tab-content" id="settings-tabContent">
+                    <div
+                      class="tab-pane fade show active"
+                      id="appearance"
+                      role="tabpanel"
+                      aria-labelledby="appearance-tab"
+                    >
+                      <div id="appearance-options">
+                        <!-- Add appearance options here -->
+                      </div>
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="timers"
+                      role="tabpanel"
+                      aria-labelledby="timers-tab"
+                    >
+                      <div id="timers-options">
+                        <!-- Add timer options here -->
+                      </div>
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="sounds"
+                      role="tabpanel"
+                      aria-labelledby="sounds-tab"
+                    >
+                      <div id="sounds-options">
+                        <!-- Add sound options here -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

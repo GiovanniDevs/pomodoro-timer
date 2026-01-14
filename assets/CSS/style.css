@@ -5,6 +5,13 @@ body {
 #timer-area {
   background-color: rgb(59, 59, 59);
   border-radius: 20px;
+  max-width: 400px;
+}
+
+#settings-area {
+  background-color: rgb(59, 59, 59);
+  border-radius: 20px;
+  max-width: 400px;
 }
 
 .btn-active {
@@ -16,4 +23,19 @@ body {
 .btn-default {
   background-color: transparent;
   border: solid 1px white;
+}
+
+.white-text {
+  color: white;
+}
+
+/* Up to 320px width (small phones) */
+@media (max-width: 425px) {
+  .btn.btn-primary {
+    font-size: 10px;
+  }
+
+  #settings-area {
+    font-size: 10px;
+  }
 }
