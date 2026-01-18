@@ -88,7 +88,7 @@
         aria-labelledby="settingsModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="settingsModalLabel">Settings</h1>
@@ -99,86 +99,19 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <nav class="col-4 col-md-3">
-                  <div
-                    class="nav nav-pills flex-column"
-                    id="settings-tabs"
-                    role="tablist"
-                    aria-orientation="vertical"
-                  >
-                    <button
-                      class="nav-link active"
-                      id="appearance-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#appearance"
-                      type="button"
-                      role="tab"
-                      aria-controls="appearance"
-                      aria-selected="true"
-                    >
-                      Appearance
-                    </button>
-                    <button
-                      class="nav-link"
-                      id="timers-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#timers"
-                      type="button"
-                      role="tab"
-                      aria-controls="timers"
-                      aria-selected="false"
-                    >
-                      Timers
-                    </button>
-                    <button
-                      class="nav-link"
-                      id="sounds-tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#sounds"
-                      type="button"
-                      role="tab"
-                      aria-controls="sounds"
-                      aria-selected="false"
-                    >
-                      Sounds
-                    </button>
+            <div class="modal-body p-2">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-4">
+                    <di class="row">
+                      <div class="col-12">
+                        <p>Look</p>
+                        <p>Timers</p>
+                        <p>Sounds</p>
+                      </div>
+                    </di>
                   </div>
-                </nav>
-                <div class="col-8 col-md-9">
-                  <div class="tab-content" id="settings-tabContent">
-                    <div
-                      class="tab-pane fade show active"
-                      id="appearance"
-                      role="tabpanel"
-                      aria-labelledby="appearance-tab"
-                    >
-                      <div id="appearance-options">
-                        <!-- Add appearance options here -->
-                      </div>
-                    </div>
-                    <div
-                      class="tab-pane fade"
-                      id="timers"
-                      role="tabpanel"
-                      aria-labelledby="timers-tab"
-                    >
-                      <div id="timers-options">
-                        <!-- Add timer options here -->
-                      </div>
-                    </div>
-                    <div
-                      class="tab-pane fade"
-                      id="sounds"
-                      role="tabpanel"
-                      aria-labelledby="sounds-tab"
-                    >
-                      <div id="sounds-options">
-                        <!-- Add sound options here -->
-                      </div>
-                    </div>
-                  </div>
+                  <div class="col-8 ms-auto">right</div>
                 </div>
               </div>
             </div>

@@ -29,6 +29,18 @@ body {
   color: white;
 }
 
+/* Modal styling */
+
+.modal-content {
+  border-radius: 20px;
+  background-color: rgb(59, 59, 59);
+  color: white;
+}
+
+#settingsModal {
+  --bs-modal-width: 402px;
+}
+
 /* Up to 320px width (small phones) */
 @media (max-width: 425px) {
   .btn.btn-primary {
