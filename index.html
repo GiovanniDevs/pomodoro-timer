@@ -117,15 +117,29 @@
                     </div>
                   </div>
                   <div class="col-9 ms-auto settings-area">
-                    <div class="color-setting">
+                    <div class="color-setting mt-2">
                       <span class="color-label">Timer Color</span>
 
                       <!-- Label wraps the circle -->
                       <label class="color-picker" for="favcolor">
-                        <span class="color-button"></span>
+                        <span id="color-button" class="color-button"></span>
                       </label>
 
                       <input type="color" id="favcolor" value="#ff0000" />
+                    </div>
+                    <div class="canvas-setting mt-2">
+                      <span class="color-label">Canvas Color</span>
+
+                      <!-- Label wraps the circle -->
+                      <label class="color-picker" for="favcolor-canvas">
+                        <span id="canvas-button" class="color-button"></span>
+                      </label>
+
+                      <input
+                        type="color"
+                        id="favcolor-canvas"
+                        value="#ff0000"
+                      />
                     </div>
                   </div>
                 </div>
