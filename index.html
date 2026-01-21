@@ -90,7 +90,7 @@
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
-            <div class="modal-header text-center">
+            <div class="modal-header">
               <h1
                 class="modal-title fs-5 flex-grow-1 text-center"
                 id="settingsModalLabel"
@@ -108,15 +108,23 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-3">
-                    <di class="row">
+                    <div class="row">
                       <div class="col-12">
                         <p>Look</p>
                         <p>Timers</p>
                         <p>Sounds</p>
                       </div>
-                    </di>
+                    </div>
                   </div>
-                  <div class="col-9 ms-auto">right</div>
+                  <div class="col-9 ms-auto">
+                    <div class="sub-settings">
+                      <label class="color-wrapper">
+                        <span class="color-label">Timer Color</span>
+                        <input type="color" id="favcolor" value="#ff0000" />
+                        <span class="color-button"></span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
