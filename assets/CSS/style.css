@@ -41,27 +41,46 @@ body {
   --bs-modal-width: 402px;
 }
 
-/* Color Picker */
-
-.color-wrapper {
-  position: relative;
-  display: inline-block;
+/* Modal - Sub setting area */
+.settings-area {
+  background-color: rgb(75, 75, 75);
+  border-radius: 20px;
 }
 
+/* Color Picker ------------------------------- */
+
+.color-setting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-label {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* Hide the native input */
 #favcolor {
-  position: absolute;
   opacity: 0;
-  width: 48px;
-  height: 48px;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Visible circle */
+.color-picker {
+  display: inline-block;
   cursor: pointer;
 }
 
 .color-button {
+  display: block;
   width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  background-color: #ff0000;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #005d9b;
+  border: 1px solid #ccc;
 }
 
 /* Up to 320px width (small phones) */
