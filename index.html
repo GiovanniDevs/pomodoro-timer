@@ -109,16 +109,38 @@
                 <div class="row">
                   <div class="col-3">
                     <div class="row">
-                      <div class="col-12">
-                        <p>Look</p>
-                        <p>Timers</p>
-                        <p>Sounds</p>
+                      <div class="col-12 settings-nav">
+                        <button
+                          type="button"
+                          class="settings-nav-btn is-active"
+                          data-target="look-panel"
+                        >
+                          Look
+                        </button>
+                        <button
+                          type="button"
+                          class="settings-nav-btn"
+                          data-target="timers-panel"
+                        >
+                          Timers
+                        </button>
+                        <button
+                          type="button"
+                          class="settings-nav-btn"
+                          data-target="sounds-panel"
+                        >
+                          Sounds
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div class="col-9 ms-auto settings-area">
+                  <!-- Look tab -->
+                  <div
+                    id="look-panel"
+                    class="col-9 ms-auto settings-area settings-panel is-active"
+                  >
                     <div class="color-setting mt-2">
-                      <span class="color-label">Timer Color</span>
+                      <span class="settings-label">Timer Color</span>
 
                       <!-- Label wraps the circle but target the input -->
                       <label class="color-picker" for="favcolor">
@@ -128,7 +150,7 @@
                       <input type="color" id="favcolor" value="#ff0000" />
                     </div>
                     <div class="canvas-setting mt-2">
-                      <span class="color-label">Canvas Color</span>
+                      <span class="settings-label">Canvas Color</span>
 
                       <!-- Label wraps the circle but target the input -->
                       <label class="color-picker" for="favcolor-canvas">
@@ -139,6 +161,116 @@
                         type="color"
                         id="favcolor-canvas"
                         value="#ff0000"
+                      />
+                    </div>
+                  </div>
+                  <!-- Timers Tab -->
+                  <div
+                    id="timers-panel"
+                    class="col-9 ms-auto settings-area settings-panel"
+                  >
+                    <div class="timer-setting mt-2">
+                      <p class="settings-label">
+                        The typical sequence is: Pomodoro -> Short break, repeat
+                        4 times, one long break.
+                      </p>
+                      <!-- TIMER grid system -->
+                      <div class="timer-grid">
+                        <label for="work-timer" class="settings-label"
+                          >Pomodoro</label
+                        >
+                        <label for="short-timer" class="settings-label"
+                          >Short break</label
+                        >
+                        <label for="long-timer" class="settings-label"
+                          >Long break</label
+                        >
+                        <div>
+                          <input
+                            class="timer-input"
+                            type="text"
+                            id="work-timer"
+                            value="25"
+                          />
+                          <p class="minutes-label">minutes</p>
+                        </div>
+                        <div>
+                          <input
+                            class="timer-input"
+                            type="text"
+                            id="short-timer"
+                            value="5"
+                          />
+                          <p class="minutes-label">minutes</p>
+                        </div>
+                        <div>
+                          <input
+                            class="timer-input"
+                            type="text"
+                            id="long-timer"
+                            value="30"
+                          />
+                          <p class="minutes-label">minutes</p>
+                        </div>
+                      </div>
+                      <!-- Set number of repetitions before long break -->
+                      <label for="reps"
+                        >Select the number of repetition before a Long
+                        Break</label
+                      >
+                      <input
+                        class="timer-input"
+                        type="text"
+                        id="reps"
+                        value="4"
+                      />
+                    </div>
+                  </div>
+                  <!-- Sounds Tab -->
+                  <div
+                    id="sounds-panel"
+                    class="col-9 ms-auto settings-area settings-panel"
+                  >
+                    <div class="sound-setting p-2">
+                      <p class="settings-label mb-2">
+                        Choose an alert, enable it for timer completion, and
+                        set your preferred volume.
+                      </p>
+
+                      <label for="alert-sound" class="settings-label d-block"
+                        >Alert sound</label
+                      >
+                      <select id="alert-sound" class="sound-input mb-2">
+                        <option value="bell">Classic Bell</option>
+                        <option value="digital">Digital Beep</option>
+                        <option value="gong">Soft Gong</option>
+                        <option value="chime">Calm Chime</option>
+                      </select>
+
+                      <div class="sound-toggle mb-2">
+                        <input
+                          type="checkbox"
+                          id="enable-alert"
+                          class="form-check-input"
+                          checked
+                        />
+                        <label for="enable-alert" class="settings-label mb-0"
+                          >Enable alert when timer ends</label
+                        >
+                      </div>
+
+                      <label for="alert-volume" class="settings-label d-block"
+                        >Alert volume:
+                        <span id="volume-value" class="sound-value">70%</span>
+                      </label>
+                      <input
+                        type="range"
+                        id="alert-volume"
+                        class="form-range sound-slider"
+                        min="0"
+                        max="100"
+                        value="70"
+                        step="1"
                       />
                     </div>
                   </div>

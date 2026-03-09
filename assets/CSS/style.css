@@ -6,12 +6,100 @@ body {
   background-color: rgb(59, 59, 59);
   border-radius: 20px;
   max-width: 400px;
+  min-width: 214px;
 }
 
 #settings-area {
   background-color: rgb(59, 59, 59);
   border-radius: 20px;
   max-width: 400px;
+}
+.timer-input {
+  width: 60px;
+  border: none;
+  border: 1px solid white;
+  border-radius: 6px;
+  background: transparent;
+  color: white;
+  text-align: center;
+  padding: 2px;
+  text-align: left;
+}
+
+.timer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.minutes-label {
+  font-size: 12px;
+  margin: 2px 0 0;
+  opacity: 0.8;
+}
+
+.sound-input {
+  width: 100%;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+  background-color: #f3f3f3;
+  color: #1f1f1f;
+  padding: 4px 8px;
+  outline: none;
+  box-shadow: none;
+}
+
+.sound-input:focus {
+  border-color: #8cbad6;
+}
+
+.sound-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sound-slider {
+  margin-top: 6px;
+}
+
+.sound-slider:disabled,
+.sound-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sound-value {
+  font-weight: 600;
+}
+
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-nav-btn {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #e9e9e9;
+  text-align: left;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.settings-nav-btn.is-active {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.settings-panel {
+  display: none;
+}
+
+.settings-panel.is-active {
+  display: block;
 }
 
 .btn-active {
@@ -55,9 +143,8 @@ body {
   gap: 12px;
 }
 
-.color-label {
+.settings-label {
   font-size: 14px;
-  white-space: nowrap;
 }
 
 /* Hide the native input */
