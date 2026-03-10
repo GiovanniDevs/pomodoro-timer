@@ -1,3 +1,50 @@
+// Main Timer Logic
+
+let timer;
+let timeLeft = 1500;
+
+function startTimer() {
+  timer = setInterval(updateTimer, 1000);
+}
+
+function updateDisplay() {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  const printedSeconds = seconds;
+
+  if (seconds < 10) {
+    printedSeconds = "0" + seconds.toString();
+  }
+
+  timerDoc = document.getElementById("timer");
+  timerDoc.textContent = `${minutes}:${seconds}`;
+}
+
+function updateTimer() {
+  if (timeLeft <= 0) {
+    clearInterval(timer);
+    return;
+  }
+
+  timeLeft--;
+  updateDisplay();
+}
+
+// Buttons logic
+
+document.getElementById("start").addEventListener("click", startTimer);
+
+document.getElementById("pause").addEventListener("click", () => {
+  clearInterval(timer);
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+  clearInterval(timer);
+  timeLeft = 1500;
+  updateDisplay();
+});
+
 /* Color pickers */
 
 var colorInput = document.getElementById("favcolor");

@@ -47,19 +47,27 @@
             </div>
             <div id="countdown" class="row text-center">
               <div class="col-12">
-                <h3 class="display-1 white-text">25:00</h3>
+                <h3 id="timer" class="display-1 white-text">25:00</h3>
               </div>
             </div>
             <div id="buttons-row" class="row my-3">
               <div class="col-12 d-flex justify-content-center gap-3">
                 <button
                   type="button"
+                  id="start"
                   class="btn btn-primary rounded-pill btn-active"
                 >
                   Start
                 </button>
                 <button
-                  id="rewind"
+                  type="button"
+                  id="pause"
+                  class="btn btn-primary rounded-pill btn-active"
+                >
+                  Start
+                </button>
+                <button
+                  id="reset"
                   type="button"
                   class="btn btn-primary rounded-pill btn-default"
                 >
@@ -233,8 +241,8 @@
                   >
                     <div class="sound-setting p-2">
                       <p class="settings-label mb-2">
-                        Choose an alert, enable it for timer completion, and
-                        set your preferred volume.
+                        Choose an alert, enable it for timer completion, and set
+                        your preferred volume.
                       </p>
 
                       <label for="alert-sound" class="settings-label d-block"
