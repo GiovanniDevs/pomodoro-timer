@@ -1,36 +1,81 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Variables
   // setting variables
-  let setWorkTime = parseInt(document.getElementById("work-timer").value);
-  let setShortBreak = parseInt(document.getElementById("short-timer").value);
-  let setLongBreak = parseInt(document.getElementById("long-timer").value);
-  let setReps = parseInt(document.getElementById("reps").value);
+  let setWorkTime =
+    (parseInt(document.getElementById("work-timer").value, 10) || 25) * 60;
+  let setShortBreak =
+    (parseInt(document.getElementById("short-timer").value, 10) || 5) * 60;
+  let setLongBreak =
+    (parseInt(document.getElementById("long-timer").value, 10) || 30) * 60;
+  let setReps = parseInt(document.getElementById("reps").value, 10) || 4;
+
+  // timer state
+  let timer = null;
+  let timeLeft = setWorkTime;
+  let currentMode = "work"; // "work" | "short" | "long"
+  let completedWorkSessions = 0;
 
   //  Event listeners to update timers from settings
 
   document.getElementById("work-timer").addEventListener("input", (e) => {
-    setWorkTime = parseInt(e.target.value) * 60 || 0;
+    setWorkTime = (parseInt(e.target.value, 10) || 0) * 60;
     saveSettings();
-    loadSettings();
+    if (!timer && currentMode === "work") {
+      timeLeft = setWorkTime;
+      updateDisplay();
+    }
   });
 
   document.getElementById("short-timer").addEventListener("input", (e) => {
-    setShortBreak = parseInt(e.target.value) * 60 || 0;
+    setShortBreak = (parseInt(e.target.value, 10) || 0) * 60;
     saveSettings();
-    loadSettings();
+    if (!timer && currentMode === "short") {
+      timeLeft = setShortBreak;
+      updateDisplay();
+    }
   });
 
   document.getElementById("long-timer").addEventListener("input", (e) => {
-    setLongBreak = parseInt(e.target.value) * 60 || 0;
+    setLongBreak = (parseInt(e.target.value, 10) || 0) * 60;
     saveSettings();
-    loadSettings();
+    if (!timer && currentMode === "long") {
+      timeLeft = setLongBreak;
+      updateDisplay();
+    }
   });
 
   document.getElementById("reps").addEventListener("input", (e) => {
-    setReps = parseInt(e.target.value) || 1;
+    setReps = Math.max(1, parseInt(e.target.value, 10) || 1);
     saveSettings();
-    loadSettings();
   });
+
+  // ----- update buttons active/inactive
+
+  function updateModeButtons() {
+    const focusBtn = document.getElementById("focus-mode");
+    const shortBtn = document.getElementById("short-mode");
+    const longBtn = document.getElementById("long-mode");
+
+    if (!focusBtn || !shortBtn || !longBtn) return;
+
+    focusBtn.classList.remove("btn-active");
+    focusBtn.classList.add("btn-default");
+    shortBtn.classList.remove("btn-active");
+    shortBtn.classList.add("btn-default");
+    longBtn.classList.remove("btn-active");
+    longBtn.classList.add("btn-default");
+
+    if (currentMode === "work") {
+      focusBtn.classList.add("btn-active");
+      focusBtn.classList.remove("btn-default");
+    } else if (currentMode === "short") {
+      shortBtn.classList.add("btn-active");
+      shortBtn.classList.remove("btn-default");
+    } else {
+      longBtn.classList.add("btn-active");
+      longBtn.classList.remove("btn-default");
+    }
+  }
 
   // ------ Local Storage ------
 
@@ -46,25 +91,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadSettings() {
     const saved = localStorage.getItem("pomodoroSettings");
-    if (saved) {
-      const s = JSON.parse(saved);
-
-      // update variables
-      setWorkTime = s.work * 60;
-      setShortBreak = s.shortBreak * 60;
-      setLongBreak = s.longBreak * 60;
-      setReps = s.reps;
-
-      // update input fields to match saved settings
-      document.getElementById("work-timer").value = s.work;
-      document.getElementById("short-timer").value = s.shortBreak;
-      document.getElementById("long-timer").value = s.longBreak;
-      document.getElementById("reps").value = s.reps;
-
-      // reset timer to saved work time
+    if (!saved) {
       timeLeft = setWorkTime;
+      updateModeButtons();
       updateDisplay();
+      return;
     }
+
+    const s = JSON.parse(saved);
+
+    setWorkTime = (parseInt(s.work, 10) || 25) * 60;
+    setShortBreak = (parseInt(s.shortBreak, 10) || 5) * 60;
+    setLongBreak = (parseInt(s.longBreak, 10) || 30) * 60;
+    setReps = Math.max(1, parseInt(s.reps, 10) || 4);
+
+    document.getElementById("work-timer").value = setWorkTime / 60;
+    document.getElementById("short-timer").value = setShortBreak / 60;
+    document.getElementById("long-timer").value = setLongBreak / 60;
+    document.getElementById("reps").value = setReps;
+
+    timeLeft = getModeDuration(currentMode);
+    updateModeButtons();
+    updateDisplay();
   }
 
   // ------ Disable/Enable Setting while running/reset ------
@@ -83,9 +131,34 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("reps").disabled = false;
   }
 
-  // ------ Main Timer Logic ------
+  // Mode helper functions
 
-  let timer;
+  function getModeDuration(mode) {
+    if (mode === "work") return setWorkTime;
+    if (mode === "short") return setShortBreak;
+    return setLongBreak;
+  }
+
+  function stopTimer() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function setMode(mode, autoStart = false) {
+    stopTimer();
+    currentMode = mode;
+    timeLeft = getModeDuration(mode);
+    updateModeButtons();
+    updateDisplay();
+
+    if (autoStart) {
+      startTimer();
+    } else {
+      enableSettings();
+    }
+  }
+
+  // ------ Main Timer Logic ------
 
   function startTimer() {
     if (timer) return; // if already running, exit
@@ -109,28 +182,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateTimer() {
     if (timeLeft <= 0) {
-      clearInterval(timer);
-      enableSettings();
+      handleTimerCompletion();
       return;
     }
 
-    timeLeft--;
+    timeLeft -= 5;
     updateDisplay();
+
+    if (timeLeft <= 0) {
+      handleTimerCompletion();
+    }
   }
+
+  function handleTimerCompletion() {
+    stopTimer();
+
+    if (currentMode === "work") {
+      completedWorkSessions += 1;
+
+      if (completedWorkSessions >= setReps) {
+        completedWorkSessions = 0;
+        setMode("long", true); // auto-start long break
+      } else {
+        setMode("short", true); // auto-start short break
+      }
+      return;
+    }
+
+    // After any break, return to work and auto-start
+    setMode("work", true);
+  }
+
+  // Run Short Break
 
   // Buttons logic
 
   document.getElementById("start").addEventListener("click", startTimer);
 
   document.getElementById("pause").addEventListener("click", () => {
-    clearInterval(timer);
-    timer = null;
+    stopTimer();
+    enableSettings();
   });
 
   document.getElementById("reset").addEventListener("click", () => {
-    clearInterval(timer);
-    timer = null;
+    stopTimer();
+    completedWorkSessions = 0;
+    currentMode = "work";
     timeLeft = setWorkTime;
+    updateModeButtons();
     enableSettings();
     updateDisplay();
   });
@@ -220,6 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tabButtons[j].addEventListener("click", onTabClick);
     }
   }
-
+  updateModeButtons();
   loadSettings();
 });
