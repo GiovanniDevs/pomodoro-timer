@@ -216,12 +216,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // Run Short Break
 
   // Buttons logic
+  startBtn = document.getElementById("start");
+  pauseBtn = document.getElementById("pause");
 
-  document.getElementById("start").addEventListener("click", startTimer);
+  startBtn.addEventListener("click", () => {
+    startTimer();
+    startBtn.classList.add("invis");
+    // startBtn.classList.remove("visib");
+    // pauseBtn.classList.add("visib");
+    pauseBtn.classList.remove("invis");
+  });
 
-  document.getElementById("pause").addEventListener("click", () => {
+  pauseBtn.addEventListener("click", () => {
     stopTimer();
     enableSettings();
+    // startBtn.classList.add("visib");
+    startBtn.classList.remove("invis");
+    pauseBtn.classList.add("invis");
+    // pauseBtn.classList.remove("visib");
   });
 
   document.getElementById("reset").addEventListener("click", () => {

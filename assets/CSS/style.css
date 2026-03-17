@@ -2,6 +2,10 @@ body {
   background-color: rgb(77, 153, 127);
 }
 
+.invis {
+  display: none;
+}
+
 #timer-area {
   background-color: rgb(59, 59, 59);
   border-radius: 20px;
