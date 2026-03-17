@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let timeLeft = setWorkTime;
   let currentMode = "work"; // "work" | "short" | "long"
   let completedWorkSessions = 0;
+  let completedWorkSets = 0;
 
   //  Event listeners to update timers from settings
 
@@ -163,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function startTimer() {
     if (timer) return; // if already running, exit
     disableSettings();
+
     timer = setInterval(updateTimer, 1000);
   }
 
@@ -178,6 +180,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let timerDoc = document.getElementById("timer");
     timerDoc.textContent = `${minutes}:${printedSeconds}`;
+
+    let sessions = document.getElementById("done-sessions");
+    let sets = document.getElementById("done-sets");
+
+    sessions.textContent = `${completedWorkSessions}`;
+    sets.textContent = `${completedWorkSets}`;
   }
 
   function updateTimer() {
@@ -186,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    timeLeft -= 5;
+    timeLeft -= 20;
     updateDisplay();
 
     if (timeLeft <= 0) {
@@ -202,6 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (completedWorkSessions >= setReps) {
         completedWorkSessions = 0;
+        completedWorkSets += 1;
         setMode("long", true); // auto-start long break
       } else {
         setMode("short", true); // auto-start short break
@@ -222,23 +231,21 @@ document.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("click", () => {
     startTimer();
     startBtn.classList.add("invis");
-    // startBtn.classList.remove("visib");
-    // pauseBtn.classList.add("visib");
     pauseBtn.classList.remove("invis");
   });
 
   pauseBtn.addEventListener("click", () => {
     stopTimer();
     enableSettings();
-    // startBtn.classList.add("visib");
+
     startBtn.classList.remove("invis");
     pauseBtn.classList.add("invis");
-    // pauseBtn.classList.remove("visib");
   });
 
   document.getElementById("reset").addEventListener("click", () => {
     stopTimer();
     completedWorkSessions = 0;
+    completedWorkSets = 0;
     currentMode = "work";
     timeLeft = setWorkTime;
     updateModeButtons();
