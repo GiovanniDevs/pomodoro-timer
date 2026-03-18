@@ -20,12 +20,10 @@ body {
 }
 .timer-input {
   width: 60px;
-  border: none;
   border: 1px solid white;
   border-radius: 6px;
   background: transparent;
   color: white;
-  text-align: center;
   padding: 2px;
   text-align: left;
 }

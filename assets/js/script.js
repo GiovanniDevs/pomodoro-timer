@@ -224,14 +224,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (completedWorkSessions >= setReps) {
         completedWorkSessions = 0;
         completedWorkSets += 1;
-        setMode("long", true); // auto-start long break
+        qAlarm = soundSet;
+        playAlarm();
+        setMode("long", true);
       } else {
-        setMode("short", true); // auto-start short break
+        qAlarm = soundSession;
+        playAlarm();
+        setMode("short", true);
       }
       return;
     }
 
-    // After any break, return to work and auto-start
+    if (currentMode === "short") {
+      qAlarm = soundSession;
+      playAlarm();
+    } else if (currentMode === "long") {
+      qAlarm = soundSet;
+      playAlarm();
+    }
+
     setMode("work", true);
   }
 
@@ -331,6 +342,51 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSoundControls();
     updateVolumeText();
   }
+
+  /* alarm settings */
+
+  let chime = new Audio("assets/sounds/chime.mp3");
+  let gong = new Audio("assets/sounds/gong.mp3");
+  let qAlarm = chime;
+
+  let soundSession = chime;
+  let soundSet = chime;
+
+  function playAlarm() {
+    qAlarm.currentTime = 0;
+    qAlarm.play();
+  }
+
+  let sessionSelector = document.getElementById("alert-sound");
+  let setSelector = document.getElementById("alert-sound2");
+
+  sessionSelector.addEventListener("change", () => {
+    sessionAlarm = sessionSelector.value;
+    switch (sessionAlarm) {
+      case "gong":
+        soundSession = gong;
+        break;
+      case "chime":
+        soundSession = chime;
+        break;
+      default:
+        soundSession = chime;
+    }
+  });
+
+  setSelector.addEventListener("change", () => {
+    setAlarm = setSelector.value;
+    switch (setAlarm) {
+      case "gong":
+        soundSet = gong;
+        break;
+      case "chime":
+        soundSet = chime;
+        break;
+      default:
+        soundSet = chime;
+    }
+  });
 
   /* Settings section show/hide */
 
