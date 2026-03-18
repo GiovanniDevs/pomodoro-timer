@@ -237,12 +237,12 @@
                         </div>
                       </div>
                       <!-- Set number of repetitions before long break -->
-                      <label for="reps"
+                      <label for="reps" class="settings-label"
                         >Select the number of repetition before a Long
                         Break</label
                       >
                       <input
-                        class="timer-input"
+                        class="timer-input mb-2"
                         type="text"
                         id="reps"
                         value="4"
@@ -259,17 +259,6 @@
                         Choose an alert, enable it for timer completion, and set
                         your preferred volume.
                       </p>
-
-                      <label for="alert-sound" class="settings-label d-block"
-                        >Alert sound</label
-                      >
-                      <select id="alert-sound" class="sound-input mb-2">
-                        <option value="bell">Classic Bell</option>
-                        <option value="digital">Digital Beep</option>
-                        <option value="gong">Soft Gong</option>
-                        <option value="chime">Calm Chime</option>
-                      </select>
-
                       <div class="sound-toggle mb-2">
                         <input
                           type="checkbox"
@@ -281,20 +270,70 @@
                           >Enable alert when timer ends</label
                         >
                       </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <label
+                            for="alert-sound"
+                            class="settings-label d-block"
+                            >Lap-alert sound</label
+                          >
+                          <select id="alert-sound" class="sound-input mb-2">
+                            <option value="bell">Classic Bell</option>
+                            <option value="digital">Digital Beep</option>
+                            <option value="gong">Soft Gong</option>
+                            <option value="chime">Calm Chime</option>
+                          </select>
 
-                      <label for="alert-volume" class="settings-label d-block"
-                        >Alert volume:
-                        <span id="volume-value" class="sound-value">70%</span>
-                      </label>
-                      <input
-                        type="range"
-                        id="alert-volume"
-                        class="form-range sound-slider"
-                        min="0"
-                        max="100"
-                        value="70"
-                        step="1"
-                      />
+                          <label
+                            for="alert-volume"
+                            class="settings-label d-block"
+                            >Alert volume:
+                            <span id="volume-value" class="sound-value"
+                              >70%</span
+                            >
+                          </label>
+                          <input
+                            type="range"
+                            id="alert-volume"
+                            class="form-range sound-slider"
+                            min="0"
+                            max="100"
+                            value="70"
+                            step="1"
+                          />
+                        </div>
+                        <div class="col-6">
+                          <label
+                            for="alert-sound2"
+                            class="settings-label d-block"
+                            >Session-alert sound</label
+                          >
+                          <select id="alert-sound2" class="sound-input mb-2">
+                            <option value="bell">Classic Bell</option>
+                            <option value="digital">Digital Beep</option>
+                            <option value="gong">Soft Gong</option>
+                            <option value="chime">Calm Chime</option>
+                          </select>
+
+                          <label
+                            for="alert-volume2"
+                            class="settings-label d-block"
+                            >Alert volume:
+                            <span id="volume-value2" class="sound-value"
+                              >70%</span
+                            >
+                          </label>
+                          <input
+                            type="range"
+                            id="alert-volume2"
+                            class="form-range sound-slider"
+                            min="0"
+                            max="100"
+                            value="70"
+                            step="1"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

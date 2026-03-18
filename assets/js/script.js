@@ -99,7 +99,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const s = JSON.parse(saved);
+    let s;
+
+    try {
+      s = JSON.parse(saved);
+    } catch (error) {
+      console.warn("Invalid JSON in localStorage, resetting settings");
+
+      localStorage.removeItem("pomodoroSettings");
+
+      timeLeft = setWorkTime;
+      updateModeButtons();
+      updateDisplay();
+      return;
+    }
 
     setWorkTime = (parseInt(s.work, 10) || 25) * 60;
     setShortBreak = (parseInt(s.shortBreak, 10) || 5) * 60;
@@ -225,8 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Run Short Break
 
   // Buttons logic
-  startBtn = document.getElementById("start");
-  pauseBtn = document.getElementById("pause");
+  const startBtn = document.getElementById("start");
+  const pauseBtn = document.getElementById("pause");
 
   startBtn.addEventListener("click", () => {
     startTimer();
@@ -251,6 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateModeButtons();
     enableSettings();
     updateDisplay();
+    startBtn.classList.remove("invis");
+    pauseBtn.classList.add("invis");
   });
 
   /* Color pickers */
@@ -276,26 +291,42 @@ document.addEventListener("DOMContentLoaded", () => {
     canvasInput.addEventListener("input", updateCanvasColor);
   }
 
-  /* Sound settings */
+  /* Sound settings for lap */
 
   var soundSelect = document.getElementById("alert-sound");
   var soundToggle = document.getElementById("enable-alert");
   var volumeSlider = document.getElementById("alert-volume");
   var volumeValue = document.getElementById("volume-value");
 
+  var soundSelect2 = document.getElementById("alert-sound2");
+  var volumeSlider2 = document.getElementById("alert-volume2");
+  var volumeValue2 = document.getElementById("volume-value2");
+
   function updateSoundControls() {
     var alertsEnabled = soundToggle.checked;
     soundSelect.disabled = !alertsEnabled;
     volumeSlider.disabled = !alertsEnabled;
+    soundSelect2.disabled = !alertsEnabled;
+    volumeSlider2.disabled = !alertsEnabled;
   }
 
   function updateVolumeText() {
     volumeValue.textContent = volumeSlider.value + "%";
+    volumeValue2.textContent = volumeSlider2.value + "%";
   }
 
-  if (soundSelect && soundToggle && volumeSlider && volumeValue) {
+  if (
+    soundSelect &&
+    soundToggle &&
+    volumeSlider &&
+    volumeValue &&
+    soundSelect2 &&
+    volumeSlider2 &&
+    volumeValue2
+  ) {
     soundToggle.addEventListener("change", updateSoundControls);
     volumeSlider.addEventListener("input", updateVolumeText);
+    volumeSlider2.addEventListener("input", updateVolumeText);
 
     updateSoundControls();
     updateVolumeText();
