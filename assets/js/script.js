@@ -80,6 +80,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ------ Local Storage ------
 
+  function saveSoundSettings() {
+    const soundSettings = {
+      alertsEnabled: soundToggle.checked,
+      sessionSound: soundSelect.value,
+      setSound: soundSelect2.value,
+      volume1: volumeSlider.value,
+      volume2: volumeSlider2.value,
+    };
+
+    localStorage.setItem(
+      "pomodoroSoundSettings",
+      JSON.stringify(soundSettings),
+    );
+  }
+
   function saveSettings() {
     const settings = {
       work: setWorkTime / 60, // store in minutes
@@ -127,6 +142,29 @@ document.addEventListener("DOMContentLoaded", () => {
     timeLeft = getModeDuration(currentMode);
     updateModeButtons();
     updateDisplay();
+  }
+
+  function loadSoundSettings() {
+    const saved = localStorage.getItem("pomodoroSoundSettings");
+    if (!saved) return;
+
+    let s;
+
+    try {
+      s = JSON.parse(saved);
+    } catch {
+      localStorage.removeItem("pomodoroSoundSettings");
+      return;
+    }
+
+    soundToggle.checked = s.alertsEnabled ?? true;
+    soundSelect.value = s.sessionSound || "chime";
+    soundSelect2.value = s.setSound || "chime";
+    volumeSlider.value = s.volume1 || 100;
+    volumeSlider2.value = s.volume2 || 100;
+
+    updateSoundControls();
+    updateVolumeText();
   }
 
   // ------ Disable/Enable Setting while running/reset ------
@@ -335,9 +373,19 @@ document.addEventListener("DOMContentLoaded", () => {
     volumeSlider2 &&
     volumeValue2
   ) {
-    soundToggle.addEventListener("change", updateSoundControls);
-    volumeSlider.addEventListener("input", updateVolumeText);
-    volumeSlider2.addEventListener("input", updateVolumeText);
+    soundToggle.addEventListener("change", () => {
+      updateSoundControls();
+      saveSoundSettings();
+    });
+    volumeSlider.addEventListener("input", () => {
+      updateVolumeText();
+      saveSoundSettings();
+    });
+
+    volumeSlider2.addEventListener("input", () => {
+      updateVolumeText();
+      saveSoundSettings();
+    });
 
     updateSoundControls();
     updateVolumeText();
@@ -347,6 +395,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let chime = new Audio("assets/sounds/chime.mp3");
   let gong = new Audio("assets/sounds/gong.mp3");
+  let beep = new Audio("assets/sounds/beep.mp3");
+  let smooth = new Audio("assets/sounds/smooth.mp3");
+  let bell = new Audio("assets/sounds/bell.mp3");
   let qAlarm = chime;
 
   let soundSession = chime;
@@ -362,31 +413,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
   sessionSelector.addEventListener("change", () => {
     sessionAlarm = sessionSelector.value;
-    switch (sessionAlarm) {
+    applySoundSelection();
+    saveSoundSettings();
+  });
+
+  setSelector.addEventListener("change", () => {
+    setAlarm = setSelector.value;
+    applySoundSelection();
+    saveSoundSettings();
+  });
+
+  function applySoundSelection() {
+    // Session sound
+    switch (soundSelect.value) {
       case "gong":
         soundSession = gong;
         break;
       case "chime":
         soundSession = chime;
         break;
+      case "beep":
+        soundSession = beep;
+        break;
+      case "smooth":
+        soundSession = smooth;
+        break;
+      case "bell":
+        soundSession = bell;
+        break;
       default:
         soundSession = chime;
     }
-  });
 
-  setSelector.addEventListener("change", () => {
-    setAlarm = setSelector.value;
-    switch (setAlarm) {
+    // Set sound
+    switch (soundSelect2.value) {
       case "gong":
         soundSet = gong;
         break;
       case "chime":
         soundSet = chime;
         break;
+      case "beep":
+        soundSet = beep;
+        break;
+      case "smooth":
+        soundSet = smooth;
+        break;
+      case "bell":
+        soundSet = bell;
+        break;
       default:
         soundSet = chime;
     }
-  });
+  }
 
   /* Settings section show/hide */
 
@@ -427,4 +506,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateModeButtons();
   loadSettings();
+  loadSoundSettings();
+  applySoundSelection();
 });
