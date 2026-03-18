@@ -380,11 +380,13 @@ document.addEventListener("DOMContentLoaded", () => {
     volumeSlider.addEventListener("input", () => {
       updateVolumeText();
       saveSoundSettings();
+      applyVolumes();
     });
 
     volumeSlider2.addEventListener("input", () => {
       updateVolumeText();
       saveSoundSettings();
+      applyVolumes();
     });
 
     updateSoundControls();
@@ -467,6 +469,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* Sound volume */
+  function applyVolumes() {
+    // session sounds
+    soundSession.volume = volumeSlider.value / 100;
+
+    // set sounds
+    soundSet.volume = volumeSlider2.value / 100;
+  }
+
   /* Settings section show/hide */
 
   var tabButtons = document.querySelectorAll(".settings-nav-btn");
@@ -508,4 +519,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSettings();
   loadSoundSettings();
   applySoundSelection();
+  applyVolumes();
 });
