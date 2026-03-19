@@ -46,10 +46,11 @@ body {
 .invis {
   display: none;
 }
+
 .custom-border {
-  border-style: none !important;
-  border-width: 3px !important;
-  border-color: #353535 !important;
+  border-width: 3px;
+  border-color: #353535;
+  border-style: solid;
 }
 
 #timer-area {

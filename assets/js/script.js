@@ -549,6 +549,27 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     setMainFont(fontSelect.value);
   }
+  // Border style
+  var borderSelect = document.getElementById("border-select");
+
+  function setTimerAreaBorderStyle(styleName) {
+    timerArea.style.borderStyle = styleName;
+  }
+
+  borderSelect.addEventListener("change", function () {
+    var selectedStyle = borderSelect.value;
+    setTimerAreaBorderStyle(selectedStyle);
+    localStorage.setItem("mainTimerBorderStyle", selectedStyle);
+  });
+
+  var savedBorderStyle = localStorage.getItem("mainTimerBorderStyle");
+
+  if (savedBorderStyle && borderSelect) {
+    borderSelect.value = savedBorderStyle;
+    setTimerAreaBorderStyle(savedBorderStyle);
+  } else if (borderSelect) {
+    setTimerAreaBorderStyle(borderSelect.value);
+  }
 
   updateModeButtons();
   loadSettings();
