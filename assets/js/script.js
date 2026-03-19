@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    timeLeft -= 20;
+    timeLeft -= 1;
     updateDisplay();
 
     if (timeLeft <= 0) {
@@ -324,20 +324,51 @@ document.addEventListener("DOMContentLoaded", () => {
   var canvasInput = document.getElementById("favcolor-canvas");
   var canvasButton = document.getElementById("canvas-button");
 
+  var timerAreaBox = document.getElementById("timer-area");
+  var pageBody = document.body;
+
   function updateMainColor() {
-    colorButton.style.backgroundColor = colorInput.value;
+    var selectedColor = colorInput.value;
+
+    colorButton.style.backgroundColor = selectedColor; // small preview chip
+    timerAreaBox.style.backgroundColor = selectedColor; // timer-area background
+    localStorage.setItem("mainTimerAreaColor", selectedColor);
   }
 
   function updateCanvasColor() {
-    canvasButton.style.backgroundColor = canvasInput.value;
-  }
+    var selectedColor = canvasInput.value;
 
+    canvasButton.style.backgroundColor = selectedColor; // small preview chip
+    pageBody.style.backgroundColor = selectedColor; // body background
+    localStorage.setItem("mainCanvasColor", selectedColor);
+  }
+  // Event listeners for colors
   if (colorInput && colorButton) {
     colorInput.addEventListener("input", updateMainColor);
   }
 
   if (canvasInput && canvasButton) {
     canvasInput.addEventListener("input", updateCanvasColor);
+  }
+  // Load saved values when page starts
+  var savedTimerAreaColor = localStorage.getItem("mainTimerAreaColor");
+  if (savedTimerAreaColor && colorInput) {
+    colorInput.value = savedTimerAreaColor;
+  }
+
+  var savedCanvasColor = localStorage.getItem("mainCanvasColor");
+  if (savedCanvasColor && canvasInput) {
+    canvasInput.value = savedCanvasColor;
+  }
+
+  //  Apply colors once at startup
+
+  if (colorInput && colorButton && timerAreaBox) {
+    updateMainColor();
+  }
+
+  if (canvasInput && canvasButton && pageBody) {
+    updateCanvasColor();
   }
 
   /* Sound settings for lap */
