@@ -46,6 +46,11 @@ body {
 .invis {
   display: none;
 }
+.custom-border {
+  border-style: none !important;
+  border-width: 3px !important;
+  border-color: #353535 !important;
+}
 
 #timer-area {
   background-color: rgb(59, 59, 59);
@@ -67,6 +72,17 @@ body {
   color: white;
   padding: 2px;
   text-align: left;
+}
+
+/* Grants fonts vertical alignment inside buttons on main timer area */
+#timer-area .btn:not(.invis) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  line-height: 1;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .timer-grid {

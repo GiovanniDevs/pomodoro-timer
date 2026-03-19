@@ -517,6 +517,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Font settings
+  var fontSelect = document.getElementById("font-select");
+  var timerArea = document.getElementById("timer-area");
+
+  function setMainFont(fontName) {
+    if (fontName === "poiret") {
+      timerArea.style.fontFamily = '"Poiret One", sans-serif';
+    } else if (fontName === "bitcount") {
+      timerArea.style.fontFamily = '"Bitcount Single", system-ui';
+    } else if (fontName === "noto") {
+      timerArea.style.fontFamily = '"Noto Serif", serif';
+    } else if (fontName === "zain") {
+      timerArea.style.fontFamily = '"Zain", sans-serif';
+    } else {
+      // default
+      timerArea.style.fontFamily = '"Work Sans", sans-serif';
+    }
+  }
+
+  fontSelect.addEventListener("change", function () {
+    var selectedFont = fontSelect.value;
+    setMainFont(selectedFont);
+    localStorage.setItem("mainTimerFont", selectedFont);
+  });
+
+  var savedFont = localStorage.getItem("mainTimerFont");
+
+  if (savedFont) {
+    fontSelect.value = savedFont;
+    setMainFont(savedFont);
+  } else {
+    setMainFont(fontSelect.value);
+  }
 
   updateModeButtons();
   loadSettings();
