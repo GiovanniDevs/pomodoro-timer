@@ -515,6 +515,9 @@ document.addEventListener("DOMContentLoaded", () => {
       tabButtons[j].addEventListener("click", onTabClick);
     }
   }
+
+  // Font settings
+
   updateModeButtons();
   loadSettings();
   loadSoundSettings();

@@ -28,21 +28,21 @@
                 <button
                   type="button"
                   id="focus-mode"
-                  class="btn btn-primary rounded-pill btn-active"
+                  class="btn btn-primary rounded-pill btn-active not-a-button"
                 >
                   Focus
                 </button>
                 <button
                   type="button"
                   id="short-mode"
-                  class="btn btn-primary rounded-pill btn-default"
+                  class="btn btn-primary rounded-pill btn-default not-a-button"
                 >
                   Short Break
                 </button>
                 <button
                   type="button"
                   id="long-mode"
-                  class="btn btn-primary rounded-pill btn-default"
+                  class="btn btn-primary rounded-pill btn-default not-a-button"
                 >
                   Long Break
                 </button>
@@ -186,6 +186,19 @@
                         value="#ff0000"
                       />
                     </div>
+                    <div class="setting-label mt-2">
+                      <span class="settings-label">Font</span>
+                      <select
+                        id="font-select"
+                        class="settings-label select-input mb-2"
+                      >
+                        <option value="work">Work Sans</option>
+                        <option value="poiret">Poiret One</option>
+                        <option value="bitcount">Bitcount</option>
+                        <option value="noto">Noto</option>
+                        <option value="zain">Zain</option>
+                      </select>
+                    </div>
                   </div>
                   <!-- Timers Tab -->
                   <div
@@ -277,7 +290,10 @@
                             class="settings-label d-block"
                             >Lap-alert sound</label
                           >
-                          <select id="alert-sound" class="sound-input mb-2">
+                          <select
+                            id="alert-sound"
+                            class="settings-label select-input mb-2"
+                          >
                             <option value="bell">Classic Bell</option>
                             <option value="beep">Digital Beep</option>
                             <option value="gong">Soft Gong</option>
@@ -309,7 +325,10 @@
                             class="settings-label d-block"
                             >Session-alert sound</label
                           >
-                          <select id="alert-sound2" class="sound-input mb-2">
+                          <select
+                            id="alert-sound2"
+                            class="settings-label select-input mb-2"
+                          >
                             <option value="bell">Classic Bell</option>
                             <option value="digital">Digital Beep</option>
                             <option value="gong">Soft Gong</option>

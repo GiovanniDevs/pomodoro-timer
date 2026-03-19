@@ -1,3 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Work+Sans:ital@0;1&family=Zain&display=swap");
+
+.work-sans {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poiret-one-regular {
+  font-family: "Poiret One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bitcount-single {
+  font-family: "Bitcount Single", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0,
+    "CRSV" 0.5,
+    "ELSH" 0,
+    "ELXP" 0;
+}
+
+.noto-serif {
+  font-family: "Noto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.zain-regular {
+  font-family: "Zain", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 body {
   background-color: #191919;
 }
@@ -22,7 +63,7 @@ body {
   width: 60px;
   border: 1px solid white;
   border-radius: 6px;
-  background: transparent;
+  background: #353535;
   color: white;
   padding: 2px;
   text-align: left;
@@ -40,7 +81,7 @@ body {
   opacity: 0.8;
 }
 
-.sound-input {
+.select-input {
   width: 100%;
   border: 1px solid #d3d3d3;
   border-radius: 6px;
@@ -51,7 +92,7 @@ body {
   box-shadow: none;
 }
 
-.sound-input:focus {
+.select-input:focus {
   border-color: #8cbad6;
 }
 
@@ -98,6 +139,10 @@ body {
 
 .settings-panel {
   display: none;
+}
+
+.not-a-button {
+  pointer-events: none;
 }
 
 .settings-panel.is-active {
