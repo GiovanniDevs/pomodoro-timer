@@ -60,6 +60,14 @@ body {
   min-width: 214px;
 }
 
+#timer {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  line-height: 1;
+  font-size: clamp(2.2rem, 9vw, 4rem);
+}
+
 #settings-area {
   background-color: rgb(59, 59, 59);
   border-radius: 20px;
