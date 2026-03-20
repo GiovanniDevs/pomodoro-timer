@@ -72,21 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!focusBtn || !shortBtn || !longBtn) return;
 
     focusBtn.classList.remove("btn-active");
-    focusBtn.classList.add("btn-default");
     shortBtn.classList.remove("btn-active");
-    shortBtn.classList.add("btn-default");
     longBtn.classList.remove("btn-active");
-    longBtn.classList.add("btn-default");
 
     if (currentMode === "work") {
       focusBtn.classList.add("btn-active");
-      focusBtn.classList.remove("btn-default");
     } else if (currentMode === "short") {
       shortBtn.classList.add("btn-active");
-      shortBtn.classList.remove("btn-default");
     } else {
       longBtn.classList.add("btn-active");
-      longBtn.classList.remove("btn-default");
     }
   }
 
@@ -259,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    timeLeft -= 1;
+    timeLeft -= 15;
     updateDisplay();
 
     if (timeLeft <= 0) {
@@ -452,7 +446,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function playAlarm() {
     qAlarm.currentTime = 0;
-    qAlarm.play();
+    if (soundToggle.checked) {
+      qAlarm.play();
+    }
   }
 
   let sessionSelector = document.getElementById("alert-sound");
