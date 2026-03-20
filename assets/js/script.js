@@ -19,7 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
   //  Event listeners to update timers from settings
 
   document.getElementById("work-timer").addEventListener("input", (e) => {
-    setWorkTime = (parseInt(e.target.value, 10) || 0) * 60;
+    let val = parseInt(e.target.value, 10) || 1;
+    val = Math.min(Math.max(val, 1), 99); // clamp 1-99
+    setWorkTime = val * 60;
+    e.target.value = val; // update input if clamped
     saveSettings();
     if (!timer && currentMode === "work") {
       timeLeft = setWorkTime;
@@ -28,7 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("short-timer").addEventListener("input", (e) => {
-    setShortBreak = (parseInt(e.target.value, 10) || 0) * 60;
+    let val = parseInt(e.target.value, 10) || 1;
+    val = Math.min(Math.max(val, 1), 99);
+    setShortBreak = val * 60;
+    e.target.value = val;
     saveSettings();
     if (!timer && currentMode === "short") {
       timeLeft = setShortBreak;
@@ -37,7 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("long-timer").addEventListener("input", (e) => {
-    setLongBreak = (parseInt(e.target.value, 10) || 0) * 60;
+    let val = parseInt(e.target.value, 10) || 1;
+    val = Math.min(Math.max(val, 1), 99);
+    setLongBreak = val * 60;
+    e.target.value = val;
     saveSettings();
     if (!timer && currentMode === "long") {
       timeLeft = setLongBreak;
@@ -46,7 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("reps").addEventListener("input", (e) => {
-    setReps = Math.max(1, parseInt(e.target.value, 10) || 1);
+    let val = parseInt(e.target.value, 10) || 1;
+    val = Math.min(Math.max(val, 1), 99);
+    setReps = val;
+    e.target.value = val;
     saveSettings();
   });
 
@@ -129,10 +141,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    setWorkTime = (parseInt(s.work, 10) || 25) * 60;
-    setShortBreak = (parseInt(s.shortBreak, 10) || 5) * 60;
-    setLongBreak = (parseInt(s.longBreak, 10) || 30) * 60;
-    setReps = Math.max(1, parseInt(s.reps, 10) || 4);
+    setWorkTime = Math.min(Math.max(parseInt(s.work, 10) || 25, 1), 99) * 60;
+    setShortBreak =
+      Math.min(Math.max(parseInt(s.shortBreak, 10) || 5, 1), 99) * 60;
+    setLongBreak =
+      Math.min(Math.max(parseInt(s.longBreak, 10) || 30, 1), 99) * 60;
+    setReps = Math.min(Math.max(parseInt(s.reps, 10) || 4, 1), 99);
 
     document.getElementById("work-timer").value = setWorkTime / 60;
     document.getElementById("short-timer").value = setShortBreak / 60;
