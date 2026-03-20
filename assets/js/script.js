@@ -1,22 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Variables
-  // setting variables
+  // ============================================================
+  // SECTION 1: Variables and Initial State
+  // ============================================================
+
+  /** @type {number} Focus session duration in seconds (default: 25 min) */
   let setWorkTime =
     (parseInt(document.getElementById("work-timer").value, 10) || 25) * 60;
+
+  /** @type {number} Short break duration in seconds (default: 5 min) */
   let setShortBreak =
     (parseInt(document.getElementById("short-timer").value, 10) || 5) * 60;
+
+  /** @type {number} Long break duration in seconds (default: 30 min) */
   let setLongBreak =
     (parseInt(document.getElementById("long-timer").value, 10) || 30) * 60;
+
+  /** @type {number} Number of focus sessions before a long break (default: 4) */
   let setReps = parseInt(document.getElementById("reps").value, 10) || 4;
 
-  // timer state
+  /** @type {number|null} setInterval ID — null when stopped or paused */
   let timer = null;
+
+  /** @type {number} Seconds remaining in the current countdown */
   let timeLeft = setWorkTime;
+
+  /** @type {string} Active mode: "work", "short", or "long" */
   let currentMode = "work"; // "work" | "short" | "long"
+
+  /** @type {number} Focus rounds completed in the current set */
   let completedWorkSessions = 0;
+
+  /** @type {number} Full sets completed (focus × reps + long break) */
   let completedWorkSets = 0;
 
-  //  Event listeners to update timers from settings
+  // ============================================================
+  // SECTION 2: Timer Setting Input Listeners
+  // ============================================================
+  // Each input is validated and clamped between 1–99.
+  // If the timer is paused and the input matches the current mode,
+  // the display updates immediately.
 
   document.getElementById("work-timer").addEventListener("input", (e) => {
     let val = parseInt(e.target.value, 10) || 1;
@@ -62,8 +84,15 @@ document.addEventListener("DOMContentLoaded", () => {
     saveSettings();
   });
 
-  // ----- update buttons active/inactive
+  // ============================================================
+  // SECTION 3: Mode Button Indicators
+  // ============================================================
 
+  /**
+   * Updates which pill button (Focus / Short Break / Long Break)
+   * is visually highlighted based on the current mode.
+   * Removes btn-active from all three, then adds it to the matching one.
+   */
   function updateModeButtons() {
     const focusBtn = document.getElementById("focus-mode");
     const shortBtn = document.getElementById("short-mode");
@@ -84,23 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ------ Local Storage ------
+  // ============================================================
+  // SECTION 4: localStorage Persistence
+  // ============================================================
 
-  function saveSoundSettings() {
-    const soundSettings = {
-      alertsEnabled: soundToggle.checked,
-      sessionSound: soundSelect.value,
-      setSound: soundSelect2.value,
-      volume1: volumeSlider.value,
-      volume2: volumeSlider2.value,
-    };
-
-    localStorage.setItem(
-      "pomodoroSoundSettings",
-      JSON.stringify(soundSettings),
-    );
-  }
-
+  /**
+   * Saves the current timer durations (converted back to minutes)
+   * and reps count to localStorage under the key "pomodoroSettings".
+   */
   function saveSettings() {
     const settings = {
       work: setWorkTime / 60, // store in minutes
@@ -111,6 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("pomodoroSettings", JSON.stringify(settings));
   }
 
+  /**
+   * Loads saved timer settings from localStorage.
+   * Parses JSON with try/catch, applies 1–99 clamping to each value,
+   * updates state variables and DOM inputs, then refreshes the display.
+   * Falls back to defaults if no data or corrupted JSON is found.
+   */
   function loadSettings() {
     const saved = localStorage.getItem("pomodoroSettings");
     if (!saved) {
@@ -152,6 +178,31 @@ document.addEventListener("DOMContentLoaded", () => {
     updateDisplay();
   }
 
+  /**
+   * Saves sound preferences to localStorage under "pomodoroSoundSettings".
+   * Stores the master toggle state, both sound selections, and both volumes.
+   */
+  function saveSoundSettings() {
+    const soundSettings = {
+      alertsEnabled: soundToggle.checked,
+      sessionSound: soundSelect.value,
+      setSound: soundSelect2.value,
+      volume1: volumeSlider.value,
+      volume2: volumeSlider2.value,
+    };
+
+    localStorage.setItem(
+      "pomodoroSoundSettings",
+      JSON.stringify(soundSettings),
+    );
+  }
+
+  /**
+   * Loads saved sound preferences from localStorage.
+   * Restores checkbox, dropdowns, and slider values with try/catch safety.
+   * Uses nullish coalescing (??) for the checkbox to default to true.
+   * Calls updateSoundControls() and updateVolumeText() to sync the UI.
+   */
   function loadSoundSettings() {
     const saved = localStorage.getItem("pomodoroSoundSettings");
     if (!saved) return;
@@ -175,8 +226,14 @@ document.addEventListener("DOMContentLoaded", () => {
     updateVolumeText();
   }
 
-  // ------ Disable/Enable Setting while running/reset ------
+  // ============================================================
+  // SECTION 5: Settings Lock
+  // ============================================================
 
+  /**
+   * Disables all four timer/reps inputs.
+   * Called when the timer starts to prevent changes mid-countdown.
+   */
   function disableSettings() {
     document.getElementById("work-timer").disabled = true;
     document.getElementById("short-timer").disabled = true;
@@ -184,6 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("reps").disabled = true;
   }
 
+  /**
+   * Enables all four timer/reps inputs.
+   * Called when the timer is paused, reset, or on a non-autostart mode switch.
+   */
   function enableSettings() {
     document.getElementById("work-timer").disabled = false;
     document.getElementById("short-timer").disabled = false;
@@ -191,19 +252,36 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("reps").disabled = false;
   }
 
-  // Mode helper functions
+  // ============================================================
+  // SECTION 6: Mode Helpers
+  // ============================================================
 
+  /**
+   * Returns the correct duration in seconds for a given mode string.
+   * @param {string} mode - "work", "short", or "long"
+   * @returns {number} Duration in seconds
+   */
   function getModeDuration(mode) {
     if (mode === "work") return setWorkTime;
     if (mode === "short") return setShortBreak;
     return setLongBreak;
   }
 
+  /**
+   * Stops the running interval and resets the timer ID to null.
+   */
   function stopTimer() {
     clearInterval(timer);
     timer = null;
   }
 
+  /**
+   * Switches to a new timer mode.
+   * Stops any running countdown, updates state, refreshes the display,
+   * and optionally auto-starts the new countdown.
+   * @param {string} mode - The mode to switch to ("work", "short", or "long")
+   * @param {boolean} [autoStart=false] - If true, starts the timer immediately
+   */
   function setMode(mode, autoStart = false) {
     stopTimer();
     currentMode = mode;
@@ -218,8 +296,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ------ Main Timer Logic ------
+  // ============================================================
+  // SECTION 7: Core Timer Logic
+  // ============================================================
 
+  /**
+   * Starts the countdown interval.
+   * Guards against double intervals — returns immediately if already running.
+   * Locks settings inputs while the timer is active.
+   */
   function startTimer() {
     if (timer) return; // if already running, exit
     disableSettings();
@@ -227,6 +312,10 @@ document.addEventListener("DOMContentLoaded", () => {
     timer = setInterval(updateTimer, 1000);
   }
 
+  /**
+   * Refreshes the on-screen timer display (MM:SS) and the
+   * session/set counters. Zero-pads seconds below 10.
+   */
   function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
@@ -247,6 +336,11 @@ document.addEventListener("DOMContentLoaded", () => {
     sets.textContent = `${completedWorkSets}`;
   }
 
+  /**
+   * Called every second by the interval.
+   * Decrements timeLeft and refreshes the display.
+   * Triggers handleTimerCompletion() when the countdown reaches zero.
+   */
   function updateTimer() {
     if (timeLeft <= 0) {
       handleTimerCompletion();
@@ -261,6 +355,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /**
+   * The automatic Pomodoro progression engine.
+   * Determines what happens when a timer reaches zero:
+   * - After a focus session: short break (or long break if reps reached)
+   * - After a short break: back to focus
+   * - After a long break: back to focus
+   * Plays the appropriate alarm sound and auto-starts the next mode.
+   */
   function handleTimerCompletion() {
     stopTimer();
 
@@ -292,18 +394,22 @@ document.addEventListener("DOMContentLoaded", () => {
     setMode("work", true);
   }
 
-  // Run Short Break
+  // ============================================================
+  // SECTION 8: Button Event Listeners
+  // ============================================================
+  // Start/Pause toggle visibility using the CSS class "invis".
 
-  // Buttons logic
   const startBtn = document.getElementById("start");
   const pauseBtn = document.getElementById("pause");
 
+  /** Start button — begins countdown, hides Start, shows Pause */
   startBtn.addEventListener("click", () => {
     startTimer();
     startBtn.classList.add("invis");
     pauseBtn.classList.remove("invis");
   });
 
+  /** Pause button — stops countdown, enables settings, shows Start, hides Pause */
   pauseBtn.addEventListener("click", () => {
     stopTimer();
     enableSettings();
@@ -312,6 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pauseBtn.classList.add("invis");
   });
 
+  /** Reset button — stops timer, resets all counters and mode to defaults */
   document.getElementById("reset").addEventListener("click", () => {
     stopTimer();
     completedWorkSessions = 0;
@@ -325,16 +432,28 @@ document.addEventListener("DOMContentLoaded", () => {
     pauseBtn.classList.add("invis");
   });
 
-  /* Color pickers */
+  // ============================================================
+  // SECTION 9: Colour Pickers
+  // ============================================================
 
+  /** @type {HTMLInputElement} Colour input for the timer area */
   var colorInput = document.getElementById("favcolor");
+  /** @type {HTMLElement} Small round preview chip for timer area colour */
   var colorButton = document.getElementById("color-button");
+  /** @type {HTMLInputElement} Colour input for the page background */
   var canvasInput = document.getElementById("favcolor-canvas");
+  /** @type {HTMLElement} Small round preview chip for canvas colour */
   var canvasButton = document.getElementById("canvas-button");
 
+  /** @type {HTMLElement} The main timer area container */
   var timerAreaBox = document.getElementById("timer-area");
+  /** @type {HTMLElement} The page body element */
   var pageBody = document.body;
 
+  /**
+   * Reads the timer area colour input, applies it to the preview chip
+   * and the timer area background, and saves to localStorage.
+   */
   function updateMainColor() {
     var selectedColor = colorInput.value;
 
@@ -343,6 +462,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("mainTimerAreaColor", selectedColor);
   }
 
+  /**
+   * Reads the canvas colour input, applies it to the preview chip
+   * and the page body background, and saves to localStorage.
+   */
   function updateCanvasColor() {
     var selectedColor = canvasInput.value;
 
@@ -350,7 +473,8 @@ document.addEventListener("DOMContentLoaded", () => {
     pageBody.style.backgroundColor = selectedColor; // body background
     localStorage.setItem("mainCanvasColor", selectedColor);
   }
-  // Event listeners for colors
+
+  // Attach colour input event listeners
   if (colorInput && colorButton) {
     colorInput.addEventListener("input", updateMainColor);
   }
@@ -358,7 +482,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (canvasInput && canvasButton) {
     canvasInput.addEventListener("input", updateCanvasColor);
   }
-  // Load saved values when page starts
+
+  // Load saved colour values from localStorage
   var savedTimerAreaColor = localStorage.getItem("mainTimerAreaColor");
   if (savedTimerAreaColor && colorInput) {
     colorInput.value = savedTimerAreaColor;
@@ -369,8 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
     canvasInput.value = savedCanvasColor;
   }
 
-  //  Apply colors once at startup
-
+  // Apply colours once at startup
   if (colorInput && colorButton && timerAreaBox) {
     updateMainColor();
   }
@@ -379,17 +503,30 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCanvasColor();
   }
 
-  /* Sound settings for lap */
+  // ============================================================
+  // SECTION 10: Sound Settings
+  // ============================================================
 
+  /** @type {HTMLSelectElement} Dropdown for session/lap alert sound */
   var soundSelect = document.getElementById("alert-sound");
+  /** @type {HTMLInputElement} Master toggle checkbox for all alerts */
   var soundToggle = document.getElementById("enable-alert");
+  /** @type {HTMLInputElement} Volume slider for session/lap alert */
   var volumeSlider = document.getElementById("alert-volume");
+  /** @type {HTMLElement} Percentage label for session/lap volume */
   var volumeValue = document.getElementById("volume-value");
 
+  /** @type {HTMLSelectElement} Dropdown for set completion alert sound */
   var soundSelect2 = document.getElementById("alert-sound2");
+  /** @type {HTMLInputElement} Volume slider for set completion alert */
   var volumeSlider2 = document.getElementById("alert-volume2");
+  /** @type {HTMLElement} Percentage label for set completion volume */
   var volumeValue2 = document.getElementById("volume-value2");
 
+  /**
+   * Enables or disables the sound dropdowns and volume sliders
+   * based on whether the master toggle checkbox is checked.
+   */
   function updateSoundControls() {
     var alertsEnabled = soundToggle.checked;
     soundSelect.disabled = !alertsEnabled;
@@ -398,11 +535,16 @@ document.addEventListener("DOMContentLoaded", () => {
     volumeSlider2.disabled = !alertsEnabled;
   }
 
+  /**
+   * Updates the percentage text labels next to both volume sliders
+   * to reflect their current value (e.g. "70%").
+   */
   function updateVolumeText() {
     volumeValue.textContent = volumeSlider.value + "%";
     volumeValue2.textContent = volumeSlider2.value + "%";
   }
 
+  // Attach sound setting event listeners (with safety check)
   if (
     soundSelect &&
     soundToggle &&
@@ -432,18 +574,33 @@ document.addEventListener("DOMContentLoaded", () => {
     updateVolumeText();
   }
 
-  /* alarm settings */
+  // ============================================================
+  // SECTION 11: Alarm System
+  // ============================================================
 
+  /** @type {HTMLAudioElement} Chime alert sound */
   let chime = new Audio("assets/sounds/chime.mp3");
+  /** @type {HTMLAudioElement} Gong alert sound */
   let gong = new Audio("assets/sounds/gong.mp3");
+  /** @type {HTMLAudioElement} Beep alert sound */
   let beep = new Audio("assets/sounds/beep.mp3");
+  /** @type {HTMLAudioElement} Smooth alert sound */
   let smooth = new Audio("assets/sounds/smooth.mp3");
+  /** @type {HTMLAudioElement} Bell alert sound */
   let bell = new Audio("assets/sounds/bell.mp3");
-  let qAlarm = chime;
 
+  /** @type {HTMLAudioElement} The sound queued to play next */
+  let qAlarm = chime;
+  /** @type {HTMLAudioElement} Audio object for session/lap alerts */
   let soundSession = chime;
+  /** @type {HTMLAudioElement} Audio object for set completion alerts */
   let soundSet = chime;
 
+  /**
+   * Plays the currently queued alarm sound.
+   * Resets playback to the start so it works even if still playing.
+   * Only plays if the master sound toggle is enabled.
+   */
   function playAlarm() {
     qAlarm.currentTime = 0;
     if (soundToggle.checked) {
@@ -451,6 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Sound selection dropdown listeners
   let sessionSelector = document.getElementById("alert-sound");
   let setSelector = document.getElementById("alert-sound2");
 
@@ -466,6 +624,11 @@ document.addEventListener("DOMContentLoaded", () => {
     saveSoundSettings();
   });
 
+  /**
+   * Reads both sound selection dropdowns and maps their values
+   * to the correct Audio objects using switch statements.
+   * Updates soundSession and soundSet accordingly.
+   */
   function applySoundSelection() {
     // Session sound
     switch (soundSelect.value) {
@@ -510,7 +673,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* Sound volume */
+  /**
+   * Reads both volume sliders and sets the .volume property (0–1 scale)
+   * on the corresponding Audio objects.
+   */
   function applyVolumes() {
     // session sounds
     soundSession.volume = volumeSlider.value / 100;
@@ -519,11 +685,20 @@ document.addEventListener("DOMContentLoaded", () => {
     soundSet.volume = volumeSlider2.value / 100;
   }
 
-  /* Settings section show/hide */
+  // ============================================================
+  // SECTION 12: Settings Tab Navigation
+  // ============================================================
 
+  /** @type {NodeList} All settings navigation buttons */
   var tabButtons = document.querySelectorAll(".settings-nav-btn");
+  /** @type {NodeList} All settings panels */
   var sections = document.querySelectorAll(".settings-panel");
 
+  /**
+   * Shows the panel matching the given section ID and hides all others.
+   * Also toggles the is-active class on the corresponding nav button.
+   * @param {string} sectionId - The ID of the panel to show
+   */
   function showSection(sectionId) {
     var i;
 
@@ -544,11 +719,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /**
+   * Click handler for tab buttons.
+   * Reads the data-target attribute and calls showSection().
+   * @param {Event} event - The click event
+   */
   function onTabClick(event) {
     var selectedSectionId = event.currentTarget.getAttribute("data-target");
     showSection(selectedSectionId);
   }
 
+  // Attach click listeners to all tab buttons
   if (tabButtons.length > 0 && sections.length > 0) {
     var j;
 
@@ -557,10 +738,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Font settings
+  // ============================================================
+  // SECTION 13: Font Settings
+  // ============================================================
+
+  /** @type {HTMLSelectElement} Font family dropdown */
   var fontSelect = document.getElementById("font-select");
+  /** @type {HTMLElement} The timer area element to apply fonts to */
   var timerArea = document.getElementById("timer-area");
 
+  /**
+   * Applies a font family to the timer area based on the given font name.
+   * Uses if/else if to map short names to full CSS font-family strings.
+   * @param {string} fontName - The font identifier (e.g. "poiret", "bitcount", "noto", "zain")
+   */
   function setMainFont(fontName) {
     if (fontName === "poiret") {
       timerArea.style.fontFamily = '"Poiret One", sans-serif';
@@ -582,6 +773,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("mainTimerFont", selectedFont);
   });
 
+  // Load saved font at startup
   var savedFont = localStorage.getItem("mainTimerFont");
 
   if (savedFont) {
@@ -590,9 +782,18 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     setMainFont(fontSelect.value);
   }
-  // Border style
+
+  // ============================================================
+  // SECTION 14: Border Style Settings
+  // ============================================================
+
+  /** @type {HTMLSelectElement} Border style dropdown */
   var borderSelect = document.getElementById("border-select");
 
+  /**
+   * Sets the CSS border-style on the timer area element.
+   * @param {string} styleName - A valid CSS border-style value (e.g. "solid", "double", "none")
+   */
   function setTimerAreaBorderStyle(styleName) {
     timerArea.style.borderStyle = styleName;
   }
@@ -603,6 +804,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("mainTimerBorderStyle", selectedStyle);
   });
 
+  // Load saved border style at startup
   var savedBorderStyle = localStorage.getItem("mainTimerBorderStyle");
 
   if (savedBorderStyle && borderSelect) {
@@ -612,9 +814,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimerAreaBorderStyle(borderSelect.value);
   }
 
-  updateModeButtons();
-  loadSettings();
-  loadSoundSettings();
-  applySoundSelection();
-  applyVolumes();
+  // ============================================================
+  // SECTION 15: Initialisation Sequence
+  // ============================================================
+  // These five calls boot the app in the correct order.
+
+  updateModeButtons(); // Highlight the correct mode pill (Focus)
+  loadSettings(); // Restore saved timer durations from localStorage
+  loadSoundSettings(); // Restore saved sound preferences
+  applySoundSelection(); // Map dropdown values to Audio objects
+  applyVolumes(); // Set volume levels on Audio objects
 });
