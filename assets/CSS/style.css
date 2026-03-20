@@ -179,6 +179,9 @@ body {
   color: black;
   border-width: 0;
 }
+.btn-primary:hover {
+  color: black !important;
+}
 
 .btn-default {
   background-color: transparent;
