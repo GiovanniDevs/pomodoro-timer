@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    timeLeft -= 15;
+    timeLeft -= 1;
     updateDisplay();
 
     if (timeLeft <= 0) {
