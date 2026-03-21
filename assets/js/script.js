@@ -334,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sessions.textContent = `${completedWorkSessions}`;
     sets.textContent = `${completedWorkSets}`;
+    scaleTimer();
   }
 
   /**
@@ -813,6 +814,25 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (borderSelect) {
     setTimerAreaBorderStyle(borderSelect.value);
   }
+
+  function scaleTimer() {
+    const container = document.querySelector(".col-6");
+    const text = document.getElementById("timer");
+
+    let size = 10;
+    text.style.fontSize = size + "px";
+
+    while (text.scrollWidth <= container.clientWidth) {
+      size++;
+      text.style.fontSize = size + "px";
+    }
+
+    // step back one size so it never overflows
+    text.style.fontSize = size - 1 + "px";
+  }
+
+  window.addEventListener("load", scaleTimer);
+  window.addEventListener("resize", scaleTimer);
 
   // ============================================================
   // SECTION 15: Initialisation Sequence
