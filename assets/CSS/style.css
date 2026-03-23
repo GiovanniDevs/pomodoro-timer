@@ -75,6 +75,10 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.stack {
+  flex-direction: column;
+}
+
 #settings-area {
   background-color: rgb(59, 59, 59);
   border-radius: 20px;

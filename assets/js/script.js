@@ -39,12 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Each input is validated and clamped between 1–99.
   // If the timer is paused and the input matches the current mode,
   // the display updates immediately.
+  // The blur event listener parses the set value back into the field past the input
+  // listener validation and clamping
 
   document.getElementById("work-timer").addEventListener("input", (e) => {
     let val = parseInt(e.target.value, 10) || 1;
     val = Math.min(Math.max(val, 1), 99); // clamp 1-99
     setWorkTime = val * 60;
-    e.target.value = val; // update input if clamped
     saveSettings();
     if (!timer && currentMode === "work") {
       timeLeft = setWorkTime;
@@ -52,11 +53,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  document.getElementById("work-timer").addEventListener("blur", (e) => {
+    e.target.value = setWorkTime / 60;
+  });
+
   document.getElementById("short-timer").addEventListener("input", (e) => {
     let val = parseInt(e.target.value, 10) || 1;
     val = Math.min(Math.max(val, 1), 99);
     setShortBreak = val * 60;
-    e.target.value = val;
     saveSettings();
     if (!timer && currentMode === "short") {
       timeLeft = setShortBreak;
@@ -64,11 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  document.getElementById("short-timer").addEventListener("blur", (e) => {
+    e.target.value = setShortBreak / 60;
+  });
+
   document.getElementById("long-timer").addEventListener("input", (e) => {
     let val = parseInt(e.target.value, 10) || 1;
     val = Math.min(Math.max(val, 1), 99);
     setLongBreak = val * 60;
-    e.target.value = val;
+
     saveSettings();
     if (!timer && currentMode === "long") {
       timeLeft = setLongBreak;
@@ -76,12 +84,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  document.getElementById("long-timer").addEventListener("blur", (e) => {
+    e.target.value = setLongBreak / 60;
+  });
+
   document.getElementById("reps").addEventListener("input", (e) => {
     let val = parseInt(e.target.value, 10) || 1;
     val = Math.min(Math.max(val, 1), 99);
     setReps = val;
-    e.target.value = val;
     saveSettings();
+  });
+
+  document.getElementById("reps").addEventListener("blur", (e) => {
+    e.target.value = setReps;
   });
 
   // ============================================================
