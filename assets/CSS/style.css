@@ -148,14 +148,14 @@ body {
   border-color: white;
 }
 .btn-primary:hover {
-  color: transparent !important;
+  color: rgb(43, 43, 43) !important;
   background-color: white !important;
   border-width: 1px !important;
   border-color: white;
 }
 
 .btn-primary:active {
-  color: transparent !important;
+  color: rgb(43, 43, 43) !important;
   background-color: white !important;
   border-width: 1px !important;
   border-color: white !important;
