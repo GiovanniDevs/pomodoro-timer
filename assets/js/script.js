@@ -800,7 +800,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================================================
-  // SECTION 14: Border Style Settings
+  // SECTION 14: Border Style Settings and timer scale
   // ============================================================
 
   /** @type {HTMLSelectElement} Border style dropdown */
@@ -830,6 +830,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimerAreaBorderStyle(borderSelect.value);
   }
 
+  // Scales timer to fit the DIV
+  
   function scaleTimer() {
     const container = document.querySelector(".col-6");
     const text = document.getElementById("timer");

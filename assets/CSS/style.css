@@ -1,44 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Work+Sans:ital@0;1&family=Zain&display=swap");
 
-.work-sans {
-  font-family: "Work Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.poiret-one-regular {
-  font-family: "Poiret One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.bitcount-single {
-  font-family: "Bitcount Single", system-ui;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings:
-    "slnt" 0,
-    "CRSV" 0.5,
-    "ELSH" 0,
-    "ELXP" 0;
-}
-
-.noto-serif {
-  font-family: "Noto Serif", serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings: "wdth" 100;
-}
-
-.zain-regular {
-  font-family: "Zain", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 body {
   background-color: #191919;
 }
@@ -79,11 +40,6 @@ body {
   flex-direction: column;
 }
 
-#settings-area {
-  background-color: rgb(59, 59, 59);
-  border-radius: 20px;
-  max-width: 400px;
-}
 .timer-input {
   width: 60px;
   border: 1px solid white;
@@ -186,12 +142,23 @@ body {
 }
 
 .btn-active {
-  background-color: whitesmoke !important;
-  color: black;
-  border-width: 0;
+  background-color: transparent !important;
+  color: rgb(255, 255, 255);
+  border-width: 1px !important;
+  border-color: white;
 }
 .btn-primary:hover {
-  color: black !important;
+  color: transparent !important;
+  background-color: white !important;
+  border-width: 1px !important;
+  border-color: white;
+}
+
+.btn-primary:active {
+  color: transparent !important;
+  background-color: white !important;
+  border-width: 1px !important;
+  border-color: white !important;
 }
 
 .btn-default {
@@ -263,11 +230,8 @@ body {
     font-size: 10px;
   }
 
-  #settings-area {
-    font-size: 10px;
-  }
-
   #timer-area {
     max-width: 300px;
     min-width: 214px;
+  }
 }
